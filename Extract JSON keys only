@@ -1,0 +1,53 @@
+"""example data
+                 },
+                    "status": null,
+                    "main": [{
+                        "type": "Filler",
+                        "itemOne": "111",
+                        "itemTwo": fa234,
+                        "itemThree": "Test"
+
+--------output
+status
+main
+type
+itemOne
+itemTwo
+itemThree
+"""
+
+brackets = ['{','[','}',']']
+
+def program(contents):  
+    for i in contents:
+        #trim whitespace and split each item
+        stripKeyValue = i.strip().split(":")
+
+        #if that key has an open or close bracket, ignore it
+        if any([x in stripKeyValue[0] for x in brackets]):
+            continue
+        else:
+            #remove the " from the key and print
+            print(stripKeyValue[0][1:-1])
+
+#below multi-line input is from stackoverflow https://stackoverflow.com/questions/30239092
+def getUserInput():
+    print('------------------------------------------------------------------------')
+    print("Input data, then hit enter, then Ctrl-D to get output")
+    
+    jsonData = []
+    while True:
+        try:
+            line = input()
+        except EOFError:
+            break
+        jsonData.append(line)
+    return jsonData
+
+#-------------------------------------------------------------
+
+jsonData = getUserInput()
+
+while True:
+    program(jsonData)
+    jsonData = getUserInput()
