@@ -1,0 +1,56 @@
+"""example data
+
+"baseBondRate": "{{rateDetails_baseBondRate}}",
+"involuntaryMarginToBondRate": "{{rateDetails_involuntaryMarginToBondRate}}",
+"irrNcoeRate": "{{rateDetails_irrNcoeRate}}",
+
+output
+rateDetails_baseBondRate,rateDetails_involuntaryMarginToBondRate,rateDetails_irrNcoeRate
+
+"""
+
+def program(contents):
+    dataRow = []
+    
+    for i in contents:
+        #trim whitespace and split each item
+        stripKeyValue = i.strip().split(":")
+
+        #remove whitespace from the value
+        cleanValue = stripKeyValue[1].strip()
+
+        #if the last character in value is , remove it
+        if cleanValue[-1] == ",":
+            cleanValue = cleanValue[:-1]
+
+        #Remove " around the value
+        cleanValue = cleanValue[1:-1]
+
+        #remove {{ }} around the value
+        cleanValue = cleanValue[2:-2]
+
+        dataRow.append(cleanValue)
+                
+    print(','.join(dataRow))
+
+#below multi-line input is from stackoverflow https://stackoverflow.com/questions/30239092
+def getUserInput():
+    print('------------------------------------------------------------------------')
+    print("Input data, then hit enter, then Ctrl-D to get output")
+    
+    jsonData = []
+    while True:
+        try:
+            line = input()
+        except EOFError:
+            break
+        jsonData.append(line)
+    return jsonData
+
+#-------------------------------------------------------------
+
+jsonData = getUserInput()
+
+while True:
+    program(jsonData)
+    jsonData = getUserInput()
